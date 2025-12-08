@@ -86,7 +86,7 @@ def visualize_features(data):
     axes[1, 1].set_xlabel('Age (years)')
     axes[1, 1].set_ylabel('Price ($)')
     axes[1, 1].set_title('Age vs Price')
-    axes[01, 1].grid(True, alpha=0.3)
+    axes[1, 1].grid(True, alpha=0.3)
     # TODO: Use plt.tight_layout() to make plots fit nicely
     plt.tight_layout()
     # TODO: Save the figure as 'feature_plots.png' with dpi=300
@@ -270,16 +270,16 @@ def make_prediction(model, sqft, bedrooms, bathrooms, age):
     """
     # TODO: Create a DataFrame with the house features
     #       columns should be: ['SquareFeet', 'Bedrooms', 'Bathrooms', 'Age']
-    house_features = pd.DataFrame([['SquareFeet', 'Bedrooms', 'Bathrooms', 'Age']], 
-                                 columns=['SquareFeet', 'Bedrooms', 'Bathrooms', 'Age'])
+    house_features = pd.DataFrame([['sqft', 'bedrooms', 'bathrooms', 'age']], 
+                                 columns=['sqft', 'bedrooms', 'bathrooms', 'age'])
     # TODO: Make a prediction using model.predict()
     predicted_price = model.predict(house_features)[0]
     # TODO: Print the house specs and predicted price nicely formatted
     print(f"\n=== New Prediction ===")
-    print(f"House specs: {SquareFeet:.0f}k miles, {age} years old, {brand_name}")
+    print(f"House specs: {sqft:.0f}sq. ft, {bedrooms} bedrooms, {bathrooms} bathrooms, {age} years old")
     print(f"Predicted price: ${predicted_price:,.2f}")
     # TODO: Return the predicted price
-    pass
+    return predicted_price
 
 
 if __name__ == "__main__":
@@ -292,7 +292,7 @@ if __name__ == "__main__":
     data = load_and_explore_data('house_prices.csv')
     # Step 2: Visualize features
     # TODO: Call visualize_features() with the data
-    
+    visualize_features(data)
     # Step 3: Prepare features
     # TODO: Call prepare_features() and store X and y
     X, y = prepare_features(data)
@@ -302,16 +302,16 @@ if __name__ == "__main__":
 
     # Step 5: Train model
     # TODO: Call train_model() with training data and feature names (X.columns)
-    
+    model = train_model(X_train, y_train, X.columns)
     # Step 6: Evaluate model
     # TODO: Call evaluate_model() with model, test data, and feature names
-    
+    predictions = evaluate_model(model, X_test, y_test, X.columns)
     # Step 7: Compare predictions
     # TODO: Call compare_predictions() showing first 10 examples
-    
+    compare_predictions(y_test, predictions)
     # Step 8: Make a new prediction
     # TODO: Call make_prediction() for a house of your choice
-    
+    make_prediction(model, 45, 3, 0,)
     print("\n" + "=" * 70)
     print("✓ Assignment complete! Check your saved plots.")
     print("Don't forget to complete a6_part2_writeup.md!")
