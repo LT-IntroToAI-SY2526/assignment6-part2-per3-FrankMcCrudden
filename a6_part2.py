@@ -26,7 +26,7 @@ def load_and_explore_data(filename):
     # TODO: Load the CSV file using pandas
     data = pd.read_csv(filename)
     # TODO: Print the first 5 rows
-    print("=== Car Price Data ===")
+    print("=== House Price Data ===")
     print(f"\nFirst 5 rows:")
     print(data.head())
     # TODO: Print the shape of the dataset
@@ -270,13 +270,17 @@ def make_prediction(model, sqft, bedrooms, bathrooms, age):
     """
     # TODO: Create a DataFrame with the house features
     #       columns should be: ['SquareFeet', 'Bedrooms', 'Bathrooms', 'Age']
-    house_features = pd.DataFrame([['sqft', 'bedrooms', 'bathrooms', 'age']], 
-                                 columns=['sqft', 'bedrooms', 'bathrooms', 'age'])
+    house_features = pd.DataFrame([{
+    'SquareFeet': sqft,
+    'Bedrooms': bedrooms,
+    'Bathrooms': bathrooms,
+    'Age': age
+    }])
     # TODO: Make a prediction using model.predict()
     predicted_price = model.predict(house_features)[0]
     # TODO: Print the house specs and predicted price nicely formatted
     print(f"\n=== New Prediction ===")
-    print(f"House specs: {sqft:.0f}sq. ft, {bedrooms} bedrooms, {bathrooms} bathrooms, {age} years old")
+    print(f"House specs: {sqft:.0f} sq ft, {bedrooms} bedrooms, {bathrooms} bathrooms, {age} years old")
     print(f"Predicted price: ${predicted_price:,.2f}")
     # TODO: Return the predicted price
     return predicted_price
@@ -311,7 +315,7 @@ if __name__ == "__main__":
     compare_predictions(y_test, predictions)
     # Step 8: Make a new prediction
     # TODO: Call make_prediction() for a house of your choice
-    make_prediction(model, 45, 3, 0,)
+    make_prediction(model, 1800, 3, 2, 10)
     print("\n" + "=" * 70)
     print("✓ Assignment complete! Check your saved plots.")
     print("Don't forget to complete a6_part2_writeup.md!")
